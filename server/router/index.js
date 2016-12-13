@@ -8,7 +8,9 @@ const Table = require('../models').Table
 router.get('/hello', (req, res) => {
   res.end('hello world')
 })
-
+/**
+ * 分页获取数据
+ */
 router.post('/table', (req, res) => {
   var tableData = {}
   const {current, size} = req.body
@@ -30,12 +32,18 @@ router.post('/table', (req, res) => {
       res.send(JSON.stringify(tableData))
     })
 })
+/**
+ * 删除数据
+ */
 router.post('/delete', (req, res) => {
   var dataId = req.body.id
   Table
     .remove({_id: dataId})
     .then(() => res.send({errorCode: 1}),err => res.send({errorMessage: '500服务器错误'}))
 })
+/**
+ * 编辑数据
+ */
 router.post('/edit', (req, res) => {
   var formData = req.body
   var id = formData._id
