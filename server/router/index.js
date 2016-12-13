@@ -34,7 +34,14 @@ router.post('/delete', (req, res) => {
   var dataId = req.body.id
   Table
     .remove({_id: dataId})
-    .then(() => res.send({errorCode: 1}))
+    .then(() => res.send({errorCode: 1}),err => res.send({errorMessage: '500服务器错误'}))
+})
+router.post('/edit', (req, res) => {
+  var formData = req.body
+  var id = formData._id
+    Table
+      .update({ _id: id }, {$set: formData})
+      .then(result => res.send({errorCode: 1}),err => res.send({errorMessage: '500服务器错误'}))
 })
 
 module.exports = router

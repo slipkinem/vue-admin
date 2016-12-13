@@ -125,9 +125,11 @@ export default {
       this.dialogFormVisible = true
     },
     cancelDialog () {
+      console.log(this.formData, 'formDataGet')
       this.dialogFormVisible = false
     },
     closeDialog () {
+      this.editData(this.formData)
       this.dialogFormVisible = false
     },
     handleSizeChange (val) {
