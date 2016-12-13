@@ -17,7 +17,7 @@ router.post('/table', (req, res) => {
   // console.log(current, size)
   Table
     .count()
-    .then((total) => {
+    .then(total => {
     tableData.total = total
   })
 
