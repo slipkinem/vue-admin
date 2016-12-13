@@ -14,6 +14,12 @@ npm run dev
 # build for production with minification
 npm run build
 
+# server
+npm run server
+
+# dev环境数据调试
+npm run server -> npm run dev
+
 # run unit tests
 npm run unit
 

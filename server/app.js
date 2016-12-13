@@ -7,7 +7,7 @@ const router = require('./router')
 const bodyParser = require('body-parser')
 const app = express()
 
-app.set('port',process.env.port || 3003)
+app.set('port',process.env.port || 3000)
 app.use(bodyParser.json()) //获取request.payload里面的数据
 app.use('/', router)
 
