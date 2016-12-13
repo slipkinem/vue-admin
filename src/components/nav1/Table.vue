@@ -53,9 +53,8 @@
                         label="操作"
                 >
             <span>
-                <el-button @click="handleClick($index, row)" type="text" size="small">查看</el-button>
-                <el-button type="text" size="small">编辑</el-button>
-                <el-button @click="deleteClick($index, row)" type="text" size="small">删除</el-button>
+                <el-button @click="editClick($index, row)" type="text" size="small">编辑</el-button>
+                <el-button @click="deleteData(row._id)" type="text" size="small">删除</el-button>
             </span>
                 </el-table-column>
             </el-table>
@@ -71,6 +70,33 @@
             :total="tableData.total">
             </el-pagination>
         </div>
+        <!--edit form-->
+        <el-dialog title="收货地址" v-model="dialogFormVisible">
+            <el-form :model="formData">
+                <el-form-item label="日期" :label-width="'120px'">
+                    <el-input  auto-complete="off" v-model="formData.date"></el-input>
+                </el-form-item>
+                <el-form-item label="姓名" :label-width="'120px'">
+                    <el-input  auto-complete="off" v-model="formData.name"></el-input>
+                </el-form-item>
+                <el-form-item label="省份" :label-width="'120px'">
+                    <el-input  auto-complete="off" v-model="formData.province"></el-input>
+                </el-form-item>
+                <el-form-item label="市区" :label-width="'120px'">
+                    <el-input  auto-complete="off" v-model="formData.city"></el-input>
+                </el-form-item>
+                <el-form-item label="地址" :label-width="'120px'">
+                    <el-input  auto-complete="off" v-model="formData.address"></el-input>
+                </el-form-item>
+                <el-form-item label="邮编" :label-width="'120px'">
+                    <el-input  auto-complete="off" v-model="formData.zip"></el-input>
+                </el-form-item>
+            </el-form>
+            <div slot="footer" class="dialog-footer">
+                <el-button @click="cancelDialog" type="info">取 消</el-button>
+                <el-button @click="closeDialog" type="primary">确 定</el-button>
+            </div>
+        </el-dialog>
     </section>
 </template>
 <script>
@@ -81,7 +107,9 @@ export default {
       page: {
         current: 1,
         size: 10
-      }
+      },
+      dialogFormVisible: false,
+      formData: {}
     }
   },
   computed: {
@@ -91,12 +119,16 @@ export default {
     this.getTableData(this.page)
   },
   methods: {
-    ...mapActions(['getTableData']),
-    handleClick ($index, row) {
-      console.log($index, row)
+    ...mapActions(['getTableData', 'deleteData', 'editData']),
+    editClick ($index, row) {
+      this.formData = row
+      this.dialogFormVisible = true
     },
-    deleteClick ($index, row) {
-      this.tableData.splice($index, 1)
+    cancelDialog () {
+      this.dialogFormVisible = false
+    },
+    closeDialog () {
+      this.dialogFormVisible = false
     },
     handleSizeChange (val) {
       this.page.size = val

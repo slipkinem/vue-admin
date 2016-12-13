@@ -5,16 +5,17 @@
 const router = require('express').Router()
 const Table = require('../models').Table
 
-
-
 router.get('/hello', (req, res) => {
   res.end('hello world')
 })
+
 router.post('/table', (req, res) => {
   var tableData = {}
   const {current, size} = req.body
   // console.log(current, size)
-  Table.count().then((total) => {
+  Table
+    .count()
+    .then((total) => {
     tableData.total = total
   })
 
@@ -28,6 +29,12 @@ router.post('/table', (req, res) => {
       console.log(JSON.stringify(tableData))
       res.send(JSON.stringify(tableData))
     })
+})
+router.post('/delete', (req, res) => {
+  var dataId = req.body.id
+  Table
+    .remove({_id: dataId})
+    .then(() => res.send({errorCode: 1}))
 })
 
 module.exports = router
