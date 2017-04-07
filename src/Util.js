@@ -4,6 +4,7 @@
 'use strict'
 const SIGN_REGEXP = /([yMdhsm])(\1*)/g
 const DEFAULT_PATTERN = 'yyyy-MM-dd hh:mm:ss'
+
 function padding (s, len) {
   var leng = len - (s + '').length
   for (let i = 0; i < leng; i++) { s = '0' + s }

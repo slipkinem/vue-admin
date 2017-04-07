@@ -40,7 +40,18 @@ compiler.plugin('compilation', function (compilation) {
 Object.keys(proxyTable).forEach(function (context) {
   var options = proxyTable[context]
   if (typeof options === 'string') {
-    options = { target: options }
+    options = {
+      target: options,
+      changeOrigin: true,
+      onProxyRes(proxyRes, req, res) {
+        [].slice.call(proxyRes.headers['set-cookie'] || '')
+          .reduce(item => {
+            console.log(item)
+            return item.replace(/Path=\/.*?;/, 'Path=/;')
+          }, '')
+        console.log(proxyRes.headers['set-cookie'])
+      }
+    }
   }
   app.use(proxyMiddleware(context, options))
 })
@@ -64,7 +75,7 @@ module.exports = app.listen(port, function (err) {
     console.log(err)
     return
   }
-  var uri = 'http://localhost:' + port
+  var uri = `http://localhost:${port}`
   console.log('Listening at ' + uri + '\n')
 
   // when env is testing, don't need open it

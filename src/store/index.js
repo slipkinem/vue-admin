@@ -11,7 +11,8 @@ import mutations from './mutation'
 Vue.use(Vuex)
 
 const state = {
-  tableData: []
+  tableData: [],
+  user: {}
 }
 
 export default new Vuex.Store({

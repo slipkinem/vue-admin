@@ -7,9 +7,14 @@ import ElementUi from 'element-ui'
 import VueResource from 'vue-resource'
 import router from './router'
 import store from './store'
+import './static/styles/index.scss'
+import interceptor from './static/javascripts/interceptor'
 
 Vue.use(VueResource)
 Vue.use(ElementUi)
+
+Vue.http.interceptors.push(interceptor)
+
 /* eslint-disable no-new */
 new Vue({
   router,

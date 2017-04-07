@@ -6,6 +6,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../components/Home.vue'
 import Table from '../components/nav1/Table.vue'
+import Login from '../components/user/login.vue'
 
 Vue.use(VueRouter)
 
@@ -14,11 +15,9 @@ export default new VueRouter({
     {
       path: '/home',
       component: Home,
-      name: '组件',
+      name: 'Home',
+      redirect: '/home/table',
       children: [
-        {
-          path: '', name: 'Table', component: Table
-        },
         {
           path: 'table', name: 'Table', component: Table
         },
@@ -28,7 +27,13 @@ export default new VueRouter({
       ]
     },
     {
-      path: '*', redirect: '/home/table'
+      path: '/login', name: 'Login', component: Login
+    },
+    {
+      path: '/register', name: 'Register', component: resolve => require(['../components/user/register.vue'], resolve)
+    },
+    {
+      path: '*', redirect: '/login'
     }
   ]
 })
