@@ -49,7 +49,7 @@ Object.keys(proxyTable).forEach(function (context) {
         proxyRes.headers['set-cookie'] =
           [].slice.call(proxyRes.headers['set-cookie'] || '')
             .map(item => {
-              return item = item.replace(/Path=\/.*?;/, 'Path=/;')
+              return item.replace(/Path=\/.*?;/, 'Path=/;')
             })
         console.log(proxyRes.headers['set-cookie'])
       }
