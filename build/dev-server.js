@@ -31,7 +31,7 @@ var hotMiddleware = require('webpack-hot-middleware')(compiler)
 // force page reload when html-webpack-plugin template changes
 compiler.plugin('compilation', function (compilation) {
   compilation.plugin('html-webpack-plugin-after-emit', function (data, cb) {
-    hotMiddleware.publish({ action: 'reload' })
+    hotMiddleware.publish({action: 'reload'})
     cb()
   })
 })
@@ -44,11 +44,13 @@ Object.keys(proxyTable).forEach(function (context) {
       target: options,
       changeOrigin: true,
       onProxyRes(proxyRes, req, res) {
-        [].slice.call(proxyRes.headers['set-cookie'] || '')
-          .reduce(item => {
-            console.log(item)
-            return item.replace(/Path=\/.*?;/, 'Path=/;')
-          }, '')
+        if (!proxyRes.headers['set-cookie']) return
+
+        proxyRes.headers['set-cookie'] =
+          [].slice.call(proxyRes.headers['set-cookie'] || '')
+            .map(item => {
+              return item = item.replace(/Path=\/.*?;/, 'Path=/;')
+            })
         console.log(proxyRes.headers['set-cookie'])
       }
     }
