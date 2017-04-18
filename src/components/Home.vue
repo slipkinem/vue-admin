@@ -6,6 +6,7 @@
           <i class="el-icon-time"></i>
         </el-tooltip>
         {{timeInfo}}
+
       </el-col>
       <el-col :span="4">
         <el-tooltip class="item tip-logout" content="退出" effect="dark" placement="bottom">
@@ -27,6 +28,7 @@
             <template slot="title">常用</template>
             <el-menu-item index="/home/table">表格</el-menu-item>
             <el-menu-item index="/home/form">表单</el-menu-item>
+            <el-menu-item index="/home/charts">图表</el-menu-item>
           </el-menu-item-group>
           <el-menu-item-group title="分组2">
             <el-menu-item index="1-3">选项3</el-menu-item>
@@ -99,7 +101,7 @@
       padding: 10px;
       .section-inside {
         padding: 10px;
-        background: #fff;
+        background: #FAFAFC;
       }
     }
     .aside-menu .router-active {

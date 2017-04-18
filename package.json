@@ -15,9 +15,11 @@
   },
   "dependencies": {
     "body-parser": "^1.15.2",
+    "echarts": "^3.5.2",
     "element-ui": "^1.0.5",
     "express": "^4.14.0",
     "mongolass": "^2.3.2",
+    "normalize.css": "^6.0.0",
     "vue": "^2.1.0",
     "vue-resource": "^1.0.3",
     "vue-router": "^2.1.1",
