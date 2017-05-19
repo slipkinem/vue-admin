@@ -29,6 +29,7 @@
             <el-menu-item index="/home/table">表格</el-menu-item>
             <el-menu-item index="/home/form">表单</el-menu-item>
             <el-menu-item index="/home/charts">图表</el-menu-item>
+            <el-menu-item index="/home/article">文章</el-menu-item>
           </el-menu-item-group>
           <el-menu-item-group title="分组2">
             <el-menu-item index="1-3">选项3</el-menu-item>
@@ -47,7 +48,7 @@
           <el-breadcrumb-item v-if="currentPathName!=''">{{currentPathName}}</el-breadcrumb-item>
         </el-breadcrumb>
       </el-col>
-      <div class="section-inside clearfix">
+      <div class="section-inside">
         <router-view></router-view>
       </div>
     </el-col>
