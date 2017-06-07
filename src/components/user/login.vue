@@ -62,6 +62,7 @@
               })
             } else {
               Message.error(responseBody.errorMessage)
+              this.loginCaptcha()
             }
           })
       },

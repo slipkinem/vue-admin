@@ -6,7 +6,7 @@ import Vue from 'vue'
 import * as types from './mutation-types'
 import {Message, MessageBox} from 'element-ui'
 
-import util from '../Util'
+import util from '../utils/formate'
 export default {
   /**
    * 获取数据
@@ -40,7 +40,7 @@ export default {
    * 删除数据
    * @param commit
    * @param dispatch
-   * @param id
+   * @param row
    * @returns {Promise.<T>}
    */
   deleteData ({commit, dispatch}, row) {
