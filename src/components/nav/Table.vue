@@ -1,5 +1,12 @@
 <template>
   <section>
+    <el-row :gutter="20">
+      <el-col :span="24" :offset="22">
+        <el-button type="text" @click="insertClick">
+          <i class="el-icon-plus"></i>新增
+        </el-button>
+      </el-col>
+    </el-row>
     <template>
       <el-table
           :data="tableData.data"
@@ -77,10 +84,10 @@
       </el-pagination>
     </div>
     <!--edit form-->
-    <el-dialog title="收货地址" v-model="dialogFormVisible">
-      <el-form :model="formData">
+    <el-dialog :title="dialogTitle" v-model="dialogFormVisible">
+      <el-form :model="formData" :rules="rules" ref="formData">
 
-        <el-form-item label="日期" :label-width="'120px'">
+        <el-form-item label="日期" :label-width="'120px'" prop="date">
           <el-date-picker
               v-model="formData.date"
               type="date"
@@ -90,23 +97,23 @@
           </el-date-picker>
         </el-form-item>
 
-        <el-form-item label="姓名" :label-width="'120px'">
+        <el-form-item label="姓名" :label-width="'120px'" prop="name">
           <el-input auto-complete="off" v-model="formData.name"></el-input>
         </el-form-item>
 
-        <el-form-item label="省份" :label-width="'120px'">
+        <el-form-item label="省份" :label-width="'120px'" prop="province">
           <el-input auto-complete="off" v-model="formData.province"></el-input>
         </el-form-item>
 
-        <el-form-item label="市区" :label-width="'120px'">
+        <el-form-item label="市区" :label-width="'120px'" prop="city">
           <el-input auto-complete="off" v-model="formData.city"></el-input>
         </el-form-item>
 
-        <el-form-item label="地址" :label-width="'120px'">
+        <el-form-item label="地址" :label-width="'120px'" prop="address">
           <el-input auto-complete="off" v-model="formData.address"></el-input>
         </el-form-item>
 
-        <el-form-item label="邮编" :label-width="'120px'">
+        <el-form-item label="邮编" :label-width="'120px'" prop="zip">
           <el-input auto-complete="off" v-model="formData.zip"></el-input>
         </el-form-item>
 
@@ -123,13 +130,47 @@
 
   export default {
     data () {
+      let zipValidator = (rule, value, callback) => {
+        if (!/^[0-9]*$/.test(value.trim())) {
+          callback(new Error('请输入数字'))
+        } else {
+          callback()
+        }
+      }
       return {
         page: {
           current: 1,
           size: 10
         },
+        formData: {
+          date: '',
+          name: '',
+          province: '',
+          city: '',
+          address: '',
+          zip: ''
+        },
+        rules: {
+          name: [{
+            required: true, message: '请输入名称', trigger: 'blur'
+          }],
+          province: [{
+            required: true, trigger: 'blur'
+          }],
+          city: [{
+            required: true, trigger: 'blur'
+          }],
+          address: [{
+            required: true, trigger: 'blur'
+          }],
+          zip: [{
+            required: true, trigger: 'blur', type: 'string', validator: zipValidator
+          }]
+
+        },
         dialogFormVisible: false,
-        formData: {},
+        dialogType: '',
+        dialogTitle: '',
         pickerOptions: {
           shortcuts: [
             {
@@ -161,20 +202,43 @@
     },
     created () {
       this.getTableData(this.page)
+      console.log('kaishi ')
     },
     methods: {
-      ...mapActions(['getTableData', 'deleteData', 'editData']),
+      ...mapActions(['getTableData', 'deleteData', 'editData', 'insertData']),
       editClick ($index, row) {
-        this.formData = row
+        this.dialogType = 'edit'
+        this.dialogTitle = '编辑数据'
+        this.formData = Object.assign({}, row)
+        this.dialogFormVisible = true
+      },
+      insertClick () {
+        this.dialogType = 'insert'
+        this.dialogTitle = '添加数据'
+        this.formData = {
+          date: '',
+          name: '',
+          province: '',
+          city: '',
+          address: '',
+          zip: ''
+        }
         this.dialogFormVisible = true
       },
       cancelDialog () {
-        console.log(this.formData, 'formDataGet')
         this.dialogFormVisible = false
       },
       closeDialog () {
-        this.editData(this.formData)
-        this.dialogFormVisible = false
+        this.$refs['formData'].validate((valid) => {
+          if (!valid) return false
+          if (this.dialogType === 'edit') {
+            this.editData(this.formData)
+          }
+          if (this.dialogType === 'insert') {
+            this.insertData(this.formData)
+          }
+          this.dialogFormVisible = false
+        })
       },
       handleSizeChange (val) {
         this.page.size = val

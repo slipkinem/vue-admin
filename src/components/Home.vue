@@ -29,6 +29,8 @@
             <el-menu-item index="/home/table">表格</el-menu-item>
             <el-menu-item index="/home/form">表单</el-menu-item>
             <el-menu-item index="/home/charts">图表</el-menu-item>
+            <el-menu-item index="/home/article">文章</el-menu-item>
+            <el-menu-item index="/home/post">编辑文章</el-menu-item>
           </el-menu-item-group>
           <el-menu-item-group title="分组2">
             <el-menu-item index="1-3">选项3</el-menu-item>
@@ -39,15 +41,17 @@
       </el-menu>
     </el-col>
     <el-col :span="20" class="section">
-      <el-col :span="24" class="section-inside">
-        <h2 style="width:200px;float:left;color: #475669;">{{currentPathName}}</h2>
-        <el-breadcrumb separator="/" style="float:right;">
-          <el-breadcrumb-item :to="{ path: '/login' }">首页</el-breadcrumb-item>
-          <el-breadcrumb-item v-if="currentPathNameParent!=''">{{currentPathNameParent}}</el-breadcrumb-item>
-          <el-breadcrumb-item v-if="currentPathName!=''">{{currentPathName}}</el-breadcrumb-item>
-        </el-breadcrumb>
-      </el-col>
-      <div class="section-inside clearfix">
+      <el-row>
+        <el-col :span="24" class="section-inside">
+          <h2 style="width:200px;float:left;color: #475669;">{{currentPathName}}</h2>
+          <el-breadcrumb separator="/" style="float:right;">
+            <el-breadcrumb-item :to="{ path: '/login' }">首页</el-breadcrumb-item>
+            <el-breadcrumb-item v-if="currentPathNameParent!=''">{{currentPathNameParent}}</el-breadcrumb-item>
+            <el-breadcrumb-item v-if="currentPathName!=''">{{currentPathName}}</el-breadcrumb-item>
+          </el-breadcrumb>
+        </el-col>
+      </el-row>
+      <div class="section-inside">
         <router-view></router-view>
       </div>
     </el-col>
@@ -55,7 +59,7 @@
 </template>
 
 <script>
-  import Util from '../Util'
+  import Util from '../utils/formate'
   export default {
     data () {
       return {
@@ -85,7 +89,6 @@
       },
       fetchData () {
         this.currentPathName = this.$route.name
-        console.log(this.$route)
         this.currentPathNameParent = this.$route.matched[0].name
       }
     }
@@ -93,7 +96,7 @@
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped lang="scss" rel="stylesheet/scss">
+<style lang="scss" rel="stylesheet/scss">
   @import "../static/styles/variable";
 
   .panel {

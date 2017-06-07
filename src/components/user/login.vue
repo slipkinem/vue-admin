@@ -29,9 +29,7 @@
 
       </el-form>
     </section>
-
-    <footer>
-    </footer>
+    <footer></footer>
   </div>
 </template>
 
@@ -48,6 +46,10 @@
       this.loginCaptcha()
     },
     methods: {
+      change (value) {
+        console.log(value)
+//        this.a0 = value
+      },
       login () {
         console.log('user', this.user)
         this.$http.post('api/user/login?captcha=' + this.user.captcha, this.user)
@@ -60,6 +62,7 @@
               })
             } else {
               Message.error(responseBody.errorMessage)
+              this.loginCaptcha()
             }
           })
       },
