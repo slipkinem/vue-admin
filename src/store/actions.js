@@ -6,7 +6,7 @@ import Vue from 'vue'
 import * as types from './mutation-types'
 import {Message, MessageBox} from 'element-ui'
 
-import util from '../Util'
+import util from '../utils/formate'
 export default {
   /**
    * 获取数据
@@ -40,7 +40,7 @@ export default {
    * 删除数据
    * @param commit
    * @param dispatch
-   * @param id
+   * @param row
    * @returns {Promise.<T>}
    */
   deleteData ({commit, dispatch}, row) {
@@ -59,6 +59,7 @@ export default {
   /**
    * 编辑数据
    * @param commit
+   * @param dispatch
    * @param updateParams
    */
   editData ({commit, dispatch}, updateParams) {
@@ -66,6 +67,21 @@ export default {
     Vue.http.post('api/table/updateTable', updateParams)
       .then(response => response.body.errorCode === 1 ? Message.success('编辑成功')
         : Message.error(`編輯失敗：${response.body.errorMessage}`))
+      .then(() => dispatch('getTableData'))
+  },
+  /**
+   * 添加数据
+   * @param commit
+   * @param dispatch
+   * @param tableData
+   */
+  insertData ({commit, dispatch}, tableData) {
+    console.log(tableData)
+    Vue.http.post('api/table/insertTableData', tableData)
+      .then(
+        response => response.body.errorCode === 1 ? Message.success('添加成功')
+          : Message.error(`添加失败：${response.body.errorMessage}`)
+      )
       .then(() => dispatch('getTableData'))
   }
 }

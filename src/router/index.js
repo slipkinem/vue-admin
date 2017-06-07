@@ -18,13 +18,22 @@ export default new VueRouter({
       redirect: '/home/table',
       children: [
         {
-          path: 'table', name: 'Table', component: resolve => require(['../components/nav1/Table.vue'], resolve)
+          path: 'table', name: '表格', component: resolve => require(['../components/nav/Table.vue'], resolve)
         },
         {
-          path: 'form', name: 'Form', component: resolve => require(['../components/nav1/Form.vue'], resolve)
+          path: 'form', name: '表单', component: resolve => require(['../components/nav/Form.vue'], resolve)
         },
         {
-          path: 'charts', name: 'Charts', component: resolve => require(['../components/nav1/charts.vue'], resolve)
+          path: 'charts', name: 'Charts', component: resolve => require(['../components/nav/charts.vue'], resolve)
+        },
+        {
+          path: 'article', name: '文章', component: r => require(['../components/nav/Article.vue'], r)
+        },
+        {
+          path: 'post', name: '新增文章', component: r => require(['../components/admin/Post.vue'], r)
+        },
+        {
+          path: 'post-detail', name: '文章详情', component: r => require(['../components/admin/PostDetail.vue'], r)
         }
       ]
     },
