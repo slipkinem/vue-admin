@@ -13,7 +13,7 @@ router.get('/hello', (req, res) => {
  */
 router.post('/table', (req, res) => {
   var tableData = {}
-  const {current, size} = req.body //req.body = {current: 1, size: 2}
+  const {current, size} = req.body // req.body = {current: 1, size: 2}
   // console.log(current, size)
   Table
     .count()

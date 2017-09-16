@@ -52,7 +52,9 @@
         </el-col>
       </el-row>
       <div class="section-inside">
-        <router-view></router-view>
+        <keep-alive>
+          <router-view></router-view>
+        </keep-alive>
       </div>
     </el-col>
   </el-row>
