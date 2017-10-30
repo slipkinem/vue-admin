@@ -3,11 +3,11 @@
  * Created by slipkinem on 2016/12/9.
  */
 'use strict'
-import Vue from 'vue';
-import * as types from './mutation-types';
-import { Message, MessageBox } from 'element-ui';
+import Vue from 'vue'
+import * as types from './mutation-types'
+import { Message, MessageBox } from 'element-ui'
 
-import util from '../utils/formate';
+import util from '../utils/formate'
 export default {
   /**
    * 获取数据
@@ -15,9 +15,7 @@ export default {
    * @param page
    * @returns {Promise.<TResult>|*}
    */
-  getTableData ({ commit }, page: Object): Promise { //
-    console.info(commit)
-
+  getTableData ({ commit }, page) {
     if (!page) {
       page = {
         current: 1,
