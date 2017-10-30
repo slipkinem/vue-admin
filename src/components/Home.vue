@@ -41,6 +41,22 @@
       </el-menu>
     </el-col>
     <el-col :span="20" class="section">
+      <!-- add toolbar -->
+      <el-row>
+        <nav>
+          <ul>
+            <li class="nav-item"
+                v-for="(nav, key) in activeRoutes"
+                :key="key">
+              <!-- 导航 -->
+              <router-link :to="nav.path">{{nav.name}}</router-link>
+              <!-- icon -->
+              <i class="remove text-danger fa fa-remove"
+                 @click="removePath(nav)"></i>
+            </li>
+          </ul>
+        </nav>
+      </el-row>
       <el-row>
         <el-col :span="24" class="section-inside">
           <h2 style="width:200px;float:left;color: #475669;">{{currentPathName}}</h2>
@@ -52,49 +68,77 @@
         </el-col>
       </el-row>
       <div class="section-inside">
-        <keep-alive>
+        <pk-keep-alive :updateComponentsKey="updateKey" ref="keepAlive">
           <router-view></router-view>
-        </keep-alive>
+        </pk-keep-alive>
       </div>
     </el-col>
   </el-row>
 </template>
 
 <script>
-  import Util from '../utils/formate'
-  export default {
-    data () {
-      return {
-        timeInfo: null,
-        currentPathName: '',
-        currentPathNameParent: ''
+import Util from '../utils/formate'
+import PkKeepAlive from '../utils/PkKeepAlive'
+
+export default {
+  components: { PkKeepAlive },
+  data () {
+    return {
+      timeInfo: null,
+      currentPathName: '',
+      currentPathNameParent: '',
+      activeRoutes: []
+    }
+  },
+  created () {
+    this.fetchData()
+    this.timeClock()
+  },
+  watch: {
+    '$route': 'fetchData'
+  },
+  methods: {
+    handleOpen (key, keyPath) {
+      console.log(key, keyPath)
+    },
+    handleClose (key, keyPath) {
+      console.log(key, keyPath)
+    },
+    timeClock () {
+      this.timeInfo = Util.format(new Date())
+    },
+    fetchData () {
+      this.currentPathName = this.$route.name
+      this.currentPathNameParent = this.$route.matched[0].name
+    },
+    removePath (nav) {
+      this.activeRoutes.splice(this.objectInArrayIndex(this.activeRoutes, nav, 'path'), 1)
+      this.$refs.keepAlive.removeCacheByKey(nav.key)
+      this.$router.push(this.activeRoutes[0].path)
+    },
+    includesSym (list, o, sym) {
+      for (let i = 0, ii = list.length; i < ii; i++) {
+        if (list[i][sym] === o[sym]) {
+          return true
+        }
       }
+      return false
     },
-    created () {
-      this.fetchData()
-      this.timeClock()
+    objectInArrayIndex (list, o, sym) {
+      for (let i = 0, ii = list.length; i < ii; i++) {
+        if (list[i][sym] === o[sym]) {
+          return i
+        }
+      }
+      return -1
     },
-    watch: {
-      '$route': 'fetchData'
-    },
-    methods: {
-      handleOpen (key, keyPath) {
-        console.log(key, keyPath)
-      },
-      handleClose (key, keyPath) {
-        console.log(key, keyPath)
-      },
-      timeClock () {
-        setInterval(() => {
-          this.timeInfo = Util.format(new Date())
-        }, 1000)
-      },
-      fetchData () {
-        this.currentPathName = this.$route.name
-        this.currentPathNameParent = this.$route.matched[0].name
+    updateKey (key) {
+      if (!this.includesSym(this.activeRoutes, this.$route, 'path')) {
+        this.activeRoutes.push(Object.assign({ key }, this.$route))
       }
     }
   }
+}
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
@@ -130,5 +174,39 @@
     float: right;
     margin-right: 20px;
     padding-top: 5px;
+  }
+
+  .nav-item {
+    display: inline-block;
+    background: #20a0ff;
+    position: relative;
+    margin: 0 0.5em 0 0;
+    .remove {
+      font-size: 18px;
+      z-index: 99;
+      position: absolute;
+      top: -7px;
+      right: -5px;
+      cursor: pointer;
+      transition: All 0.4s ease-in-out;
+      &:hover {
+        transform: rotate(90deg);
+      }
+    }
+    a {
+      opacity: 0.6;
+      display: inline-block;
+      padding: 0.5em 1em;
+      text-decoration: none;
+      color: #fcfcfc;
+      font-weight: 600;
+      cursor: pointer;
+      &.router-link-active {
+        opacity: 1;
+      }
+      &:hover {
+        opacity: 1;
+      }
+    }
   }
 </style>
