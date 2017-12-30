@@ -1,5 +1,3 @@
-// @flow
-/*
 <template>
   <section>
     <el-row :gutter="20">
@@ -127,11 +125,9 @@
     </el-dialog>
   </section>
 </template>
-*/
 
-// <script>
+<script>
   import { mapState, mapActions } from 'vuex'
-
   export default {
     data () {
       let zipValidator = (rule, value, callback) => {
@@ -170,7 +166,6 @@
           zip: [{
             required: true, trigger: 'blur', type: 'string', validator: zipValidator
           }]
-
         },
         dialogFormVisible: false,
         dialogType: '',
@@ -257,9 +252,8 @@
       }
     }
   }
-// </script>
+</script>
 
-/*
 <style>
   .block {
     margin-top: 20px;
@@ -267,4 +261,3 @@
     position: relative;
   }
 </style>
-*/
