@@ -9,61 +9,61 @@
     </el-row>
     <template>
       <el-table
-          :data="tableData.data"
-          border
-          algin="center"
-          style="width: 100%">
+        :data="tableData.data"
+        border
+        algin="center"
+        style="width: 100%">
         <el-table-column
-            prop="id"
-            label="ID"
-            width="120"
-            sortable
+          prop="id"
+          label="ID"
+          width="120"
+          sortable
         ></el-table-column>
         <el-table-column
-            prop="date"
-            label="日期"
-            width="120"
-            sortable
+          prop="date"
+          label="日期"
+          width="120"
+          sortable
         >
         </el-table-column>
         <el-table-column
-            prop="name"
-            label="姓名"
-            width="100"
-            sortable
+          prop="name"
+          label="姓名"
+          width="100"
+          sortable
         >
         </el-table-column>
         <el-table-column
-            prop="province"
-            label="省份"
-            width="100"
-            sortable
+          prop="province"
+          label="省份"
+          width="100"
+          sortable
         >
         </el-table-column>
         <el-table-column
-            prop="city"
-            label="市区"
-            sortable
+          prop="city"
+          label="市区"
+          sortable
         >
         </el-table-column>
         <el-table-column
-            prop="address"
-            label="地址"
-            width="300"
-            sortable
+          prop="address"
+          label="地址"
+          width="300"
+          sortable
         >
         </el-table-column>
         <el-table-column
-            prop="zip"
-            label="邮编"
-            width="100"
-            sortable
+          prop="zip"
+          label="邮编"
+          width="100"
+          sortable
         >
         </el-table-column>
         <el-table-column
-            inline-template
-            :context="_self"
-            label="操作"
+          inline-template
+          :context="_self"
+          label="操作"
         >
             <span>
                 <el-button @click="editClick($index, row)" type="text" size="small">编辑</el-button>
@@ -74,13 +74,13 @@
     </template>
     <div class="block">
       <el-pagination
-          @size-change="handleSizeChange"
-          @current-change="handleCurrentChange"
-          :current-page="page.current"
-          :page-sizes="[10, 20, 30, 40]"
-          :page-size="page.size"
-          layout="total, sizes, prev, pager, next, jumper"
-          :total="tableData.total">
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+        :current-page="page.current"
+        :page-sizes="[10, 20, 30, 40]"
+        :page-size="page.size"
+        layout="total, sizes, prev, pager, next, jumper"
+        :total="tableData.total">
       </el-pagination>
     </div>
     <!--edit form-->
@@ -89,11 +89,11 @@
 
         <el-form-item label="日期" :label-width="'120px'" prop="date">
           <el-date-picker
-              v-model="formData.date"
-              type="date"
-              align="right"
-              :picker-options="pickerOptions"
-              placeholder="选择日期">
+            v-model="formData.date"
+            type="date"
+            align="right"
+            :picker-options="pickerOptions"
+            placeholder="选择日期">
           </el-date-picker>
         </el-form-item>
 
@@ -125,8 +125,9 @@
     </el-dialog>
   </section>
 </template>
+
 <script>
-  import {mapState, mapActions} from 'vuex'
+  import { mapState, mapActions } from 'vuex'
 
   export default {
     data () {
@@ -202,7 +203,6 @@
     },
     created () {
       this.getTableData(this.page)
-      console.log('kaishi ')
     },
     methods: {
       ...mapActions(['getTableData', 'deleteData', 'editData', 'insertData']),
@@ -254,6 +254,7 @@
     }
   }
 </script>
+
 <style>
   .block {
     margin-top: 20px;

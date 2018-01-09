@@ -18,6 +18,8 @@
     "echarts": "^3.5.2",
     "element-ui": "^1.0.5",
     "express": "^4.14.0",
+    "font-awesome": "^4.7.0",
+    "lodash": "^4.17.4",
     "mongolass": "^2.3.2",
     "normalize.css": "^6.0.0",
     "vue": "^2.1.0",

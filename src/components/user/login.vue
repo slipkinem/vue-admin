@@ -23,7 +23,7 @@
         </el-form-item>
 
         <el-form-item>
-          <el-button type="success" @click="login">登录</el-button>
+          <el-button nativeType="submit" type="success" @click.prevent="login">登录</el-button>
           <el-button type="primary" @click="register">注册</el-button>
         </el-form-item>
 
@@ -52,19 +52,22 @@
       },
       login () {
         console.log('user', this.user)
-        this.$http.post('api/user/login?captcha=' + this.user.captcha, this.user)
+        this.$http.post('/api/user/login?captcha=' + this.user.captcha, this.user)
           .then(response => {
             let responseBody = response.body
             if (responseBody.errorCode === 0) {
               Message.success('验证成功')
               this.$router.push({
-                path: 'home/table'
+                path: '/home/table'
               })
             } else {
               Message.error(responseBody.errorMessage)
               this.loginCaptcha()
             }
           })
+        this.$router.push({
+          path: 'home/table'
+        })
       },
       loginCaptcha () {
         let timestamp = ~new Date()
