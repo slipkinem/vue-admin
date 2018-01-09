@@ -41,7 +41,7 @@
     },
     methods: {
       getPosts () {
-        this.$http.get('api/post/all', this.page)
+        this.$http.get('/api/post/all', this.page)
           .then(res => {
             let body = res.body
             if (body.errorCode === 0) {

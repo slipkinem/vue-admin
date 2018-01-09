@@ -5,10 +5,9 @@
 'use strict'
 import Vue from 'vue'
 import * as types from './mutation-types'
-import {Message, MessageBox} from 'element-ui'
+import { Message, MessageBox } from 'element-ui'
 
 import util from '../utils/formate'
-
 export default {
   /**
    * 获取数据
@@ -16,7 +15,7 @@ export default {
    * @param page
    * @returns {Promise.<TResult>|*}
    */
-  getTableData({commit}, page) {
+  getTableData ({ commit }, page) {
     if (!page) {
       page = {
         current: 1,
@@ -50,10 +49,10 @@ export default {
    * @param row
    * @returns {Promise.<T>}
    */
-  deleteData({commit, dispatch}, row) {
+  deleteData ({ commit, dispatch }, row) {
     console.log(row)
     let id = row.id
-    return MessageBox.confirm('確定要刪除嗎？', '提醒！', {type: 'warning'})
+    return MessageBox.confirm('確定要刪除嗎？', '提醒！', { type: 'warning' })
       .then(() => {
         Vue.http.delete('/api/table/deleteTable?id=' + id) // es5写法 {id: id}
           .then(response => response.body.errorCode === 1 ? Message.success('已刪除') : Message.error('删除失败！'))
@@ -69,7 +68,7 @@ export default {
    * @param dispatch
    * @param updateParams
    */
-  editData({commit, dispatch}, updateParams) {
+  editData ({ commit, dispatch }, updateParams) {
     console.log(updateParams)
     Vue.http.post('/api/table/updateTable', updateParams)
       .then(response => response.body.errorCode === 1 ? Message.success('编辑成功')
@@ -82,7 +81,7 @@ export default {
    * @param dispatch
    * @param tableData
    */
-  insertData({commit, dispatch}, tableData) {
+  insertData ({ commit, dispatch }, tableData) {
     console.log(tableData)
     Vue.http.post('/api/table/insertTableData', tableData)
       .then(
