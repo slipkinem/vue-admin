@@ -77,68 +77,68 @@
 </template>
 
 <script>
-  import Util from '../utils/formate'
-  import PkKeepAlive from '../utils/PkKeepAlive'
+import Util from '../utils/formate'
+import PkKeepAlive from '../utils/PkKeepAlive'
 
-  export default {
-    components: { PkKeepAlive },
-    data () {
-      return {
-        timeInfo: null,
-        currentPathName: '',
-        currentPathNameParent: '',
-        activeRoutes: []
+export default {
+  components: { PkKeepAlive },
+  data () {
+    return {
+      timeInfo: null,
+      currentPathName: '',
+      currentPathNameParent: '',
+      activeRoutes: []
+    }
+  },
+  created () {
+    this.fetchData()
+    this.timeClock()
+  },
+  watch: {
+    '$route': 'fetchData'
+  },
+  methods: {
+    handleOpen (key, keyPath) {
+      console.log(key, keyPath)
+    },
+    handleClose (key, keyPath) {
+      console.log(key, keyPath)
+    },
+    timeClock () {
+      this.timeInfo = Util.format(new Date())
+    },
+    fetchData () {
+      this.currentPathName = this.$route.name
+      this.currentPathNameParent = this.$route.matched[0].name
+    },
+    removePath (nav) {
+      this.activeRoutes.splice(this.objectInArrayIndex(this.activeRoutes, nav, 'path'), 1)
+      this.$refs.keepAlive.removeCacheByKey(nav.key)
+      this.$router.push(this.activeRoutes[0].path)
+    },
+    includesSym (list, o, sym) {
+      for (let i = 0, ii = list.length; i < ii; i++) {
+        if (list[i][sym] === o[sym]) {
+          return true
+        }
       }
+      return false
     },
-    created () {
-      this.fetchData()
-      this.timeClock()
+    objectInArrayIndex (list, o, sym) {
+      for (let i = 0, ii = list.length; i < ii; i++) {
+        if (list[i][sym] === o[sym]) {
+          return i
+        }
+      }
+      return -1
     },
-    watch: {
-      '$route': 'fetchData'
-    },
-    methods: {
-      handleOpen (key, keyPath) {
-        console.log(key, keyPath)
-      },
-      handleClose (key, keyPath) {
-        console.log(key, keyPath)
-      },
-      timeClock () {
-        this.timeInfo = Util.format(new Date())
-      },
-      fetchData () {
-        this.currentPathName = this.$route.name
-        this.currentPathNameParent = this.$route.matched[0].name
-      },
-      removePath (nav) {
-        this.activeRoutes.splice(this.objectInArrayIndex(this.activeRoutes, nav, 'path'), 1)
-        this.$refs.keepAlive.removeCacheByKey(nav.key)
-        this.$router.push(this.activeRoutes[0].path)
-      },
-      includesSym (list, o, sym) {
-        for (let i = 0, ii = list.length; i < ii; i++) {
-          if (list[i][sym] === o[sym]) {
-            return true
-          }
-        }
-        return false
-      },
-      objectInArrayIndex (list, o, sym) {
-        for (let i = 0, ii = list.length; i < ii; i++) {
-          if (list[i][sym] === o[sym]) {
-            return i
-          }
-        }
-        return -1
-      },
-      updateKey (key) {
-        if (!this.includesSym(this.activeRoutes, this.$route, 'path')) {
-          this.activeRoutes.push(Object.assign({ key }, this.$route))
-        }
+    updateKey (key) {
+      if (!this.includesSym(this.activeRoutes, this.$route, 'path')) {
+        this.activeRoutes.push(Object.assign({ key }, this.$route))
       }
     }
   }
+}
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
