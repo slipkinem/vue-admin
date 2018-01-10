@@ -58,7 +58,7 @@
             if (responseBody.errorCode === 0) {
               Message.success('验证成功')
               this.$router.push({
-                path: 'home/table'
+                path: '/home/table'
               })
             } else {
               Message.error(responseBody.errorMessage)
