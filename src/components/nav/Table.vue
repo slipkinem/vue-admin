@@ -18,7 +18,7 @@
           label="ID"
           width="120"
           sortable
-        ></el-table-column>
+        />
         <el-table-column
           prop="date"
           label="日期"
@@ -98,23 +98,23 @@
         </el-form-item>
 
         <el-form-item label="姓名" :label-width="'120px'" prop="name">
-          <el-input auto-complete="off" v-model="formData.name"></el-input>
+          <el-input auto-complete="off" v-model="formData.name" />
         </el-form-item>
 
         <el-form-item label="省份" :label-width="'120px'" prop="province">
-          <el-input auto-complete="off" v-model="formData.province"></el-input>
+          <el-input auto-complete="off" v-model="formData.province" />
         </el-form-item>
 
         <el-form-item label="市区" :label-width="'120px'" prop="city">
-          <el-input auto-complete="off" v-model="formData.city"></el-input>
+          <el-input auto-complete="off" v-model="formData.city" />
         </el-form-item>
 
         <el-form-item label="地址" :label-width="'120px'" prop="address">
-          <el-input auto-complete="off" v-model="formData.address"></el-input>
+          <el-input auto-complete="off" v-model="formData.address" />
         </el-form-item>
 
         <el-form-item label="邮编" :label-width="'120px'" prop="zip">
-          <el-input auto-complete="off" v-model="formData.zip"></el-input>
+          <el-input auto-complete="off" v-model="formData.zip" />
         </el-form-item>
 
       </el-form>

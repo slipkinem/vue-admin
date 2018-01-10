@@ -11,10 +11,10 @@
         <el-form-item>
           <el-col :span="16">
             <el-input type="textarea" v-model="postDetail.commentContent" placeholder="觉得好的话，给留个言呗"
-                      :rows="5"></el-input>
+                      :rows="5" />
           </el-col>
           <el-col :span="4" :offset="1">
-            <el-rate v-model="postDetail.commentRate" show-text></el-rate>
+            <el-rate v-model="postDetail.commentRate" show-text />
           </el-col>
         </el-form-item>
         <el-form-item>
@@ -29,7 +29,7 @@
         <el-col :span="2"><span class="message-board-author">{{comment.username}}</span></el-col>
         <el-col :span="14"><span class="message-board-content">{{comment.commentContent}}</span></el-col>
         <el-col :span="4">
-          <el-rate v-model="comment.commentRate" show-text text-color="#ff9900" text-template="{value}" disabled></el-rate>
+          <el-rate v-model="comment.commentRate" show-text text-color="#ff9900" text-template="{value}" disabled />
         </el-col>
       </el-row>
     </div>
@@ -61,14 +61,14 @@
     },
     methods: {
       getPostById (postId) {
-        this.$http.get('api/post/' + postId)
+        this.$http.get('/api/post/' + postId)
           .then(res => {
             this.post = res.body.post
           })
           .catch(e => this.$message.error(e.message))
       },
       getCommentByPostId (postId) {
-        this.$http.get('api/comment/' + postId)
+        this.$http.get('/api/comment/' + postId)
           .then(res => {
             this.comments = res.body.comments
           })
@@ -76,7 +76,7 @@
       submitCommentMessage () {
         this.postDetail.postId = this.postId
         this.postDetail.createTime = new Date().getTime()
-        this.$http.post('api/comment/new', this.postDetail)
+        this.$http.post('/api/comment/new', this.postDetail)
           .then(res => {
             if (res.body.errorCode === 0) {
               this.getCommentByPostId(this.postId)
