@@ -132,7 +132,7 @@
   export default {
     data () {
       let zipValidator = (rule, value, callback) => {
-        if (!/^[0-9]*$/.test(value.trim())) {
+        if (!/^[0-9]*$/.test(String(value).trim())) {
           callback(new Error('请输入数字'))
         } else {
           callback()

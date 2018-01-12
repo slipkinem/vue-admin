@@ -39,7 +39,12 @@ export default new VueRouter({
       ]
     },
     {
-      path: '/login', name: 'Login', component: Login, meta: { hideNav: true }
+      path: '/login',
+      name: 'Login',
+      component: Login,
+      meta: {
+        hideNav: true
+      }
     },
     {
       path: '/register', name: 'Register', component: resolve => require(['../components/user/register.vue'], resolve)

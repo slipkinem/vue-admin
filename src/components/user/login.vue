@@ -50,10 +50,6 @@ export default {
     this.loginCaptcha()
   },
   methods: {
-    change (value) {
-      console.log(value)
-//        this.a0 = value
-    },
     async login () {
       try {
         await this.$http.post('/user/login?captcha=' + this.user.captcha, this.user)
