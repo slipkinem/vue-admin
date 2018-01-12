@@ -25,22 +25,21 @@ export default {
 
     return Vue.http({
       type: 'GET',
-      url: '/api/table/getTable',  // 不加 / 前缀不然会导致后台URL拼接失败，后台URL =》 http://localhost:8084/articlepr/
+      url: '/table',  // 不加 / 前缀不然会导致后台URL拼接失败，后台URL =》 http://localhost:8084/articlepr/
       params: page
     })
       .then(response => {
-        let responseBody = response.body
-        if (responseBody.errorCode === 0) {
-          responseBody.data.map(function (tableData) {
+        if (response.errorCode === 0) {
+          response.data.rows = response.data.rows.map(function (tableData) {
             tableData.date = util.format(new Date(tableData.date), 'yyyy-MM-dd')
             return tableData
           })
-          console.log(responseBody)
-          commit(types.GET_TABLEDATA, responseBody)
+          commit(types.GET_TABLEDATA, response.data)
         } else {
-          MessageBox.error(responseBody.errorMessage)
+          MessageBox.error(response.errorMessage)
         }
       })
+      .catch(e => console.error(e))
   },
   /**
    * 删除数据
@@ -54,8 +53,8 @@ export default {
     let id = row.id
     return MessageBox.confirm('確定要刪除嗎？', '提醒！', {type: 'warning'})
       .then(() => {
-        Vue.http.delete('/api/table/deleteTable?id=' + id) // es5写法 {id: id}
-          .then(response => response.body.errorCode === 1 ? Message.success('已刪除') : Message.error('删除失败！'))
+        Vue.http.delete('/table/' + id) // es5写法 {id: id}
+          .then(response => response.errorCode === 1 ? Message.success('已刪除') : Message.error('删除失败！'))
           .then(() => dispatch('getTableData'))
       })
       .catch(() => {
@@ -70,7 +69,7 @@ export default {
    */
   editData ({commit, dispatch}, updateParams) {
     console.log(updateParams)
-    Vue.http.post('/api/table/updateTable', updateParams)
+    Vue.http.post('/table/update', updateParams)
       .then(response => response.body.errorCode === 1 ? Message.success('编辑成功')
         : Message.error(`編輯失敗：${response.body.errorMessage}`))
       .then(() => dispatch('getTableData'))
@@ -83,7 +82,7 @@ export default {
    */
   insertData ({commit, dispatch}, tableData) {
     console.log(tableData)
-    Vue.http.post('/api/table/insertTableData', tableData)
+    Vue.http.post('/table', tableData)
       .then(
         response => response.body.errorCode === 1 ? Message.success('添加成功')
           : Message.error(`添加失败：${response.body.errorMessage}`)

@@ -6,5 +6,6 @@ import * as types from './mutation-types'
 export default {
   [types.GET_TABLEDATA] (state, tableData) {
     state.tableData = tableData
+    console.log(state.tableData)
   }
 }

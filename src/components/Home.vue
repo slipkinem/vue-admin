@@ -62,14 +62,14 @@
           <h2 style="width:200px;float:left;color: #475669;">{{currentPathName}}</h2>
           <el-breadcrumb separator="/" style="float:right;">
             <el-breadcrumb-item :to="{ path: '/login' }">首页</el-breadcrumb-item>
-            <el-breadcrumb-item v-if="currentPathNameParent!=''">{{currentPathNameParent}}</el-breadcrumb-item>
-            <el-breadcrumb-item v-if="currentPathName!=''">{{currentPathName}}</el-breadcrumb-item>
+            <el-breadcrumb-item v-if="currentPathNameParent !== ''">{{currentPathNameParent}}</el-breadcrumb-item>
+            <el-breadcrumb-item v-if="currentPathName !== ''">{{currentPathName}}</el-breadcrumb-item>
           </el-breadcrumb>
         </el-col>
       </el-row>
       <div class="section-inside">
         <pk-keep-alive :updateComponentsKey="updateKey" ref="keepAlive">
-          <router-view></router-view>
+          <router-view/>
         </pk-keep-alive>
       </div>
     </el-col>
@@ -134,6 +134,9 @@ export default {
     },
     updateKey (key) {
       if (!this.includesSym(this.activeRoutes, this.$route, 'path')) {
+        if (this.$route.meta.hideNav) {
+          return false
+        }
         this.activeRoutes.push(Object.assign({ key }, this.$route))
       }
     }

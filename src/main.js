@@ -3,18 +3,17 @@
 import Vue from 'vue'
 import App from './App'
 import ElementUi from 'element-ui'
-
-import VueResource from 'vue-resource'
+import axios from 'axios'
 import router from './router'
 import store from './store'
 import './static/styles/index.scss'
-import interceptor from './static/javascripts/interceptor'
+import { httpConfig, response, responseError } from './static/javascripts/interceptor'
 
-Vue.use(VueResource)
 Vue.use(ElementUi)
-
-Vue.http.interceptors.push(interceptor)
-
+Vue.http = axios
+Vue.prototype.$http = axios
+Vue.http.interceptors.response.use(response, responseError)
+Vue.http.defaults = Object.assign(Vue.http.defaults, httpConfig)
 /* eslint-disable no-new */
 new Vue({
   router,

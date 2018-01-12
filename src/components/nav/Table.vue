@@ -9,7 +9,7 @@
     </el-row>
     <template>
       <el-table
-        :data="tableData.data"
+        :data="tableData.rows"
         border
         algin="center"
         style="width: 100%">

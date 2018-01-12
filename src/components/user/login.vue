@@ -6,15 +6,15 @@
     <section>
       <el-form ref="form" :label-position="'top'" label-width="100px">
         <el-form-item label="用户名">
-          <el-input v-model="user.userCode" placeholder="用户名"></el-input>
+          <el-input v-model="user.userCode" placeholder="用户名"/>
         </el-form-item>
 
         <el-form-item label="密码">
-          <el-input v-model="user.password" placeholder="密码" type="password"></el-input>
+          <el-input v-model="user.password" placeholder="密码" type="password"/>
         </el-form-item>
 
         <el-form-item label="验证码">
-          <el-input v-model="user.captcha" placeholder="验证码"></el-input>
+          <el-input v-model="user.captcha" placeholder="验证码"/>
         </el-form-item>
 
         <el-form-item>
@@ -34,54 +34,46 @@
 </template>
 
 <script>
-  import {Message} from 'element-ui'
-  export default {
-    data () {
-      return {
-        user: {},
-        imgCaptchaSrc: ''
-      }
-    },
-    created () {
-      this.loginCaptcha()
-    },
-    methods: {
-      change (value) {
-        console.log(value)
-//        this.a0 = value
-      },
-      login () {
-        console.log('user', this.user)
-        this.$http.post('/api/user/login?captcha=' + this.user.captcha, this.user)
-          .then(response => {
-            let responseBody = response.body
-            if (responseBody.errorCode === 0) {
-              Message.success('验证成功')
-              this.$router.push({
-                path: '/home/table'
-              })
-            } else {
-              Message.error(responseBody.errorMessage)
-              this.loginCaptcha()
-            }
-          })
-        this.$router.push({
-          path: 'home/table'
-        })
-      },
-      loginCaptcha () {
-        let timestamp = ~new Date()
-        this.imgCaptchaSrc = 'api/user/loginVerifyCode?timestamp=' + timestamp
-      },
+import { Message } from 'element-ui'
+import { baseURL } from '../../../constant'
 
-      register () {
-        this.$router.push({
-          path: '/register'
-        })
-      }
-
+export default {
+  data () {
+    return {
+      user: {
+        captcha: ''
+      },
+      imgCaptchaSrc: ''
     }
+  },
+  created () {
+    this.loginCaptcha()
+  },
+  methods: {
+    change (value) {
+      console.log(value)
+//        this.a0 = value
+    },
+    async login () {
+      try {
+        await this.$http.post('/user/login?captcha=' + this.user.captcha, this.user)
+        Message.success('验证成功')
+        this.$router.push('/home/table')
+      } catch (e) {
+        this.loginCaptcha()
+      }
+    },
+    loginCaptcha () {
+      let timestamp = ~new Date()
+      this.imgCaptchaSrc = baseURL + '/user/loginVerifyCode?timestamp=' + timestamp
+    },
+
+    register () {
+      this.$router.push('/register')
+    }
+
   }
+}
 </script>
 
 <style lang="scss" rel="stylesheet/scss">
