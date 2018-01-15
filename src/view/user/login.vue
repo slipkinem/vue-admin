@@ -33,42 +33,44 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import { Message } from 'element-ui'
-import { baseURL } from '../../../constant'
+import { baseURL } from '../../constant'
+import { Vue, Component } from '../../ext-nb'
 
-export default {
-  data () {
-    return {
-      user: {
-        captcha: ''
-      },
-      imgCaptchaSrc: ''
-    }
-  },
+@Component
+export default class LoginComponent extends Vue {
+
+  user = {
+    captcha: '',
+    password: '',
+    userCode: ''
+  }
+  imgCaptchaSrc = ''
+
   created () {
     this.loginCaptcha()
-  },
-  methods: {
-    async login () {
-      try {
-        await this.$http.post('/user/login?captcha=' + this.user.captcha, this.user)
-        Message.success('验证成功')
-        this.$router.push('/home/table')
-      } catch (e) {
-        this.loginCaptcha()
-      }
-    },
-    loginCaptcha () {
-      let timestamp = ~new Date()
-      this.imgCaptchaSrc = baseURL + '/user/loginVerifyCode?timestamp=' + timestamp
-    },
-
-    register () {
-      this.$router.push('/register')
-    }
-
   }
+
+  async login () {
+    try {
+      await this.$http.post('/user/login?captcha=' + this.user.captcha, this.user)
+      Message.success('验证成功')
+      this.$router.push('/home/table')
+    } catch (e) {
+      this.loginCaptcha()
+    }
+  }
+
+  loginCaptcha () {
+    let timestamp = new Date().getTime()
+    this.imgCaptchaSrc = `${baseURL}/user/loginVerifyCode?timestamp=${timestamp}`
+  }
+
+  register () {
+    this.$router.push('/register')
+  }
+
 }
 </script>
 

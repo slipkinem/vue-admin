@@ -6,7 +6,6 @@
           <i class="el-icon-time"></i>
         </el-tooltip>
         {{timeInfo}}
-
       </el-col>
       <el-col :span="4">
         <el-tooltip class="item tip-logout" content="退出" effect="dark" placement="bottom">
@@ -76,69 +75,88 @@
   </el-row>
 </template>
 
-<script>
-import Util from '../utils/formate'
-import PkKeepAlive from '../utils/PkKeepAlive'
+<script lang="ts">
+import { format } from '../shard/utils'
+import { Component, Vue } from '../ext-nb'
+import { Watch } from 'vue-property-decorator'
+import { Route } from 'vue-router'
+import PkKeepAlive from '../components/PkKeepAlive'
+import { KeepAlive } from '../typings/keep-alive'
 
-export default {
-  components: { PkKeepAlive },
-  data () {
-    return {
-      timeInfo: null,
-      currentPathName: '',
-      currentPathNameParent: '',
-      activeRoutes: []
-    }
-  },
+interface NavRoute extends Route {
+  key: string
+}
+
+@Component({
+  components: {
+    PkKeepAlive
+  }
+})
+export default class HomeComponent extends Vue {
+  $refs: {
+    keepAlive: KeepAlive
+  }
+
+  private timeInfo = ''
+  private currentPathName = ''
+  private currentPathNameParent: string | undefined = ''
+  private activeRoutes: NavRoute[] = []
+
   created () {
     this.fetchData()
     this.timeClock()
-  },
-  watch: {
-    '$route': 'fetchData'
-  },
-  methods: {
-    handleOpen (key, keyPath) {
-      console.log(key, keyPath)
-    },
-    handleClose (key, keyPath) {
-      console.log(key, keyPath)
-    },
-    timeClock () {
-      this.timeInfo = Util.format(new Date())
-    },
-    fetchData () {
+  }
+
+  @Watch('$route')
+  fetchData () {
+    if (this.$route.name) {
       this.currentPathName = this.$route.name
-      this.currentPathNameParent = this.$route.matched[0].name
-    },
-    removePath (nav) {
-      this.activeRoutes.splice(this.objectInArrayIndex(this.activeRoutes, nav, 'path'), 1)
-      this.$refs.keepAlive.removeCacheByKey(nav.key)
-      this.$router.push(this.activeRoutes[0].path)
-    },
-    includesSym (list, o, sym) {
-      for (let i = 0, ii = list.length; i < ii; i++) {
-        if (list[i][sym] === o[sym]) {
-          return true
-        }
+    }
+    this.currentPathNameParent = this.$route.matched[0].name
+  }
+
+  handleOpen (key: string, keyPath: string) {
+    console.log(key, keyPath)
+  }
+
+  handleClose (key: string, keyPath: string) {
+    console.log(key, keyPath)
+  }
+
+  timeClock () {
+    this.timeInfo = format(new Date())
+  }
+
+  removePath (nav: NavRoute) {
+    this.activeRoutes.splice(this.objectInArrayIndex(this.activeRoutes, nav, 'path'), 1)
+    this.$refs.keepAlive.removeCacheByKey(nav.key)
+    this.$router.push(this.activeRoutes[0].path)
+  }
+
+  includesSym (list: any[], o: any, sym: string) {
+    for (let i = 0; i < list.length; i++) {
+      if (list[i][sym] === o[sym]) {
+        return true
       }
-      return false
-    },
-    objectInArrayIndex (list, o, sym) {
-      for (let i = 0, ii = list.length; i < ii; i++) {
-        if (list[i][sym] === o[sym]) {
-          return i
-        }
+    }
+    return false
+  }
+
+  objectInArrayIndex (list: any[], o: any, sym: string): number {
+    for (let i = 0; i < list.length; i++) {
+      if (list[i][sym] === o[sym]) {
+        return i
       }
-      return -1
-    },
-    updateKey (key) {
-      if (!this.includesSym(this.activeRoutes, this.$route, 'path')) {
-        if (this.$route.meta.hideNav) {
-          return false
-        }
-        this.activeRoutes.push(Object.assign({ key }, this.$route))
+    }
+    return -1
+  }
+
+  updateKey (key: string) {
+    if (!this.includesSym(this.activeRoutes, this.$route, 'path')) {
+      if (this.$route.meta.hideNav) {
+        return false
       }
+      this.activeRoutes.push(Object.assign({ key }, this.$route))
     }
   }
 }
@@ -146,7 +164,7 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" rel="stylesheet/scss">
-  @import "../static/styles/variable";
+  @import "../assets/styles/variable";
 
   .panel {
     .section {
