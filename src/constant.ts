@@ -4,3 +4,8 @@
  */
 
 export const baseURL = 'api'
+
+export enum MagicCode {
+  successCode = 0,
+  source = 2
+}

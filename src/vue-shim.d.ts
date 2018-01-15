@@ -8,4 +8,4 @@ declare module '*.json' {
   export default value
 }
 
-declare let require: (files: Array<string> | string, resolve?: any) => any
+declare var require: (files: Array<string> | string, resolve?: any) => any

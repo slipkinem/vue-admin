@@ -1,14 +1,15 @@
 import * as ext from 'vue-property-decorator'
 import axios from 'axios'
+import { httpExtension } from './shard/utils/http'
 
 // extending default vue instance with some more stuff
 export class Vue extends ext.Vue {
   static get http () {
-    return axios
+    return httpExtension
   }
 
   get $http () {
-    return axios
+    return httpExtension
   }
 }
 

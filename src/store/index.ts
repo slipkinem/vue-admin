@@ -7,15 +7,15 @@ import Vuex from 'vuex'
 import getters from './getters'
 import actions from './actions'
 import { mutations } from './mutation'
+import { State } from '../typings/state'
 
 Vue.use(Vuex)
 
-const state = {
+const state: State = {
   tableData: {
     rows: [],
     total: 0
-  },
-  user: {}
+  }
 }
 
 export default new Vuex.Store({
