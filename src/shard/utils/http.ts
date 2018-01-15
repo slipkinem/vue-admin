@@ -20,6 +20,11 @@ export class HttpResponse<T> {
  * @type {{postParams: (function(*, *, *=)), postParamsClick, postClick}}
  */
 class HttpExtension {
+  /**
+   * 带有节流函数的http请求，用于防止用户连续点击
+   * @type {Function}
+   * @private
+   */
   private _postParamsClick = debouncePromise(function (url: string, params?: any, config?: AxiosRequestConfig) {
     return axios.request(
         _.assignIn({
@@ -60,6 +65,14 @@ class HttpExtension {
     })
   }
 
+  /**
+   * postParams
+   * @description 方便post请求拼接发送params
+   * @param {string} url
+   * @param params
+   * @param {AxiosRequestConfig} config
+   * @returns {Promise<HttpResponse<T>>}
+   */
   postParams<T> (url: string, params?: any, config?: AxiosRequestConfig): Promise<HttpResponse<T>> {
     return axios.request(
         _.assignIn({
@@ -71,16 +84,35 @@ class HttpExtension {
         .then(response => response.data)
   }
 
+  /**
+   * http get
+   * @param {string} url
+   * @param {AxiosRequestConfig} config
+   * @returns {Promise<HttpResponse<T>>}
+   */
   get<T> (url: string, config?: AxiosRequestConfig): Promise<HttpResponse<T>> {
     return axios.get(url, config)
         .then(response => response.data)
   }
 
+  /**
+   * http post
+   * @param {string} url
+   * @param data
+   * @param {AxiosRequestConfig} config
+   * @returns {Promise<HttpResponse<T>>}
+   */
   post<T> (url: string, data?: any, config?: AxiosRequestConfig): Promise<HttpResponse<T>> {
     return axios.post(url, data, config)
         .then(response => response.data)
   }
 
+  /**
+   * http delete
+   * @param {string} url
+   * @param {AxiosRequestConfig} config
+   * @returns {Promise<HttpResponse<T>>}
+   */
   delete<T> (url: string, config?: AxiosRequestConfig): Promise<HttpResponse<T>> {
     return axios.delete(url, config)
         .then(response => response.data)
