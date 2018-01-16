@@ -21,8 +21,9 @@ export function responseError (error: AxiosError) {
   if (!error.response) return Promise.reject(error)
 
   let { status } = error.response
-  if (status === 406) {
-    return Router.push('/login')
+  if (status === 401) {
+    Message.error('授权错误，请重新登录！')
+    Router.push('/login')
   }
   return Promise.reject(error)
 }

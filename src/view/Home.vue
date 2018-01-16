@@ -9,9 +9,9 @@
       </el-col>
       <el-col :span="4">
         <el-tooltip class="item tip-logout" content="退出" effect="dark" placement="bottom">
-          <router-link to="/login">
+          <a @click.provent.stop="logout">
             <i class="el-icon-close"></i>
-          </router-link>
+          </a>
         </el-tooltip>
       </el-col>
     </el-col>
@@ -158,6 +158,11 @@ export default class HomeComponent extends Vue {
       }
       this.activeRoutes.push(Object.assign({ key }, this.$route))
     }
+  }
+
+  logout () {
+    this.$http.get('/user/logout')
+        .then(res => this.$router.push('/login'))
   }
 }
 </script>
