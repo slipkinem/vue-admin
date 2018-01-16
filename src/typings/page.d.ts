@@ -6,3 +6,8 @@ export declare interface IPage {
   pageSize: number
   pageNum: number
 }
+
+export declare interface IResultPage<T> extends IPage{
+  rows: T,
+  total: number
+}

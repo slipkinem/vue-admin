@@ -29,7 +29,7 @@
             <el-menu-item index="/home/form">表单</el-menu-item>
             <el-menu-item index="/home/charts">图表</el-menu-item>
             <el-menu-item index="/home/article">文章</el-menu-item>
-            <el-menu-item index="/home/post">编辑文章</el-menu-item>
+            <el-menu-item index="/home/article/add">编辑文章</el-menu-item>
           </el-menu-item-group>
           <el-menu-item-group title="分组2">
             <el-menu-item index="1-3">选项3</el-menu-item>

@@ -87,11 +87,14 @@ class HttpExtension {
   /**
    * http get
    * @param {string} url
+   * @param params
    * @param {AxiosRequestConfig} config
    * @returns {Promise<HttpResponse<T>>}
    */
-  get<T> (url: string, config?: AxiosRequestConfig): Promise<HttpResponse<T>> {
-    return axios.get(url, config)
+  get<T> (url: string, params?: any, config?: AxiosRequestConfig): Promise<HttpResponse<T>> {
+    return axios.get(url, Object.assign({
+      params
+    }, config))
         .then(response => response.data)
   }
 

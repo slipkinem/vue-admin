@@ -3,14 +3,16 @@
  * Copyright © 2016, PuKang Health Maintenance Co.
  */
 
-export declare interface TableData {
+export declare interface TableRow {
   id: string
   date: string
 }
 
+export declare interface TableData {
+  rows: TableRow[]
+  total: number
+}
+
 export declare interface State {
-  tableData: {
-    rows: TableData[],
-    total: number
-  }
+  tableData: TableData
 }

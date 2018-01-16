@@ -9,7 +9,7 @@ import { HttpResponse } from '../utils/http'
 
 export function response (response: AxiosResponse<HttpResponse<any>>) {
   let { data } = response
-  if (response.hasOwnProperty('errorCode') && data.errorCode !== MagicCode.successCode) {
+  if (data.hasOwnProperty('errorCode') && data.errorCode !== MagicCode.successCode) {
     Message.error(data.errorMessage || '未知错误')
     return Promise.reject(data)
   }

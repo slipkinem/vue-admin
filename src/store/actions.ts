@@ -5,7 +5,7 @@
 import { Vue } from '../ext-nb'
 import { Message, MessageBox } from 'element-ui'
 import { ActionContext } from 'vuex'
-import { State, TableData } from '../typings/state'
+import { State, TableRow } from '../typings/state'
 import { IPage } from '../typings/page'
 import { IPageData } from '../typings/pageData'
 import { format } from '../shard/utils'
@@ -19,28 +19,25 @@ export default {
    * @param {IPage} page
    * @returns {Promise<AxiosResponse<any>>}
    */
-  getTableData ({ commit, state }: ActionContext<State, State>, page: IPage) {
+  async getTableData ({ commit, state }: ActionContext<State, State>, page?: IPage) {
     if (!page) {
       page = {
         pageNum: 1,
         pageSize: 10
       }
     }
-    return Vue.http.get<IPageData<TableData[]>>('/table', {
-      params: page
-    })
-        .then(response => {
-          if (response.errorCode === 0) {
-            response.data.rows = response.data.rows.map(function (tableData) {
-              tableData.date = format(new Date(tableData.date), 'yyyy-MM-dd')
-              return tableData
-            })
-            commit(types.GET_TABLEDATA, response.data)
-          } else {
-            Message.error(response.errorMessage)
-          }
-        })
-        .catch((e: Error) => console.error(e))
+
+    try {
+      const response = await Vue.http.get<IPageData<TableRow[]>>('/table', page)
+      console.log(response)
+      response.data.rows = response.data.rows.map(function (tableData) {
+        tableData.date = format(new Date(tableData.date), 'yyyy-MM-dd')
+        return tableData
+      })
+      commit(types.GET_TABLEDATA, response.data)
+    } catch (e) {
+      console.error(e)
+    }
   },
   /**
    * 删除数据
@@ -49,7 +46,7 @@ export default {
    * @param row
    * @returns {Promise.<T>}
    */
-  deleteData ({ commit, dispatch }: ActionContext<State, State>, row: TableData) {
+  deleteData ({ commit, dispatch }: ActionContext<State, State>, row: TableRow) {
     console.log(row)
     let id = row.id
     return MessageBox.confirm('確定要刪除嗎？', '提醒！', { type: 'warning' })
@@ -72,7 +69,7 @@ export default {
    * @param dispatch
    * @param updateParams
    */
-  async editData ({ commit, dispatch }: ActionContext<State, State>, updateParams: TableData) {
+  async editData ({ commit, dispatch }: ActionContext<State, State>, updateParams: TableRow) {
     try {
       await Vue.http.post('/table/update', updateParams)
       Message.success('编辑成功')
@@ -87,7 +84,7 @@ export default {
    * @param dispatch
    * @param tableData
    */
-  async insertData ({ commit, dispatch }: ActionContext<State, State>, tableData: TableData) {
+  async insertData ({ commit, dispatch }: ActionContext<State, State>, tableData: TableRow) {
     try {
       await Vue.http.post('/table', tableData)
       Message.success('添加成功')

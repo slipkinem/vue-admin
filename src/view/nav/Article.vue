@@ -8,7 +8,9 @@
       <el-row>
         <el-col :span="12">
           <h2 class="post-title">
-            <router-link :to="{path: '/home/post-detail/', query: {postId: post.postId}}" class="post-title-href">{{post.postTitle}}</router-link>
+            <router-link :to="{path: '/home/article/' + post.postId}" class="post-title-href">
+              {{post.postTitle}}
+            </router-link>
           </h2>
         </el-col>
       </el-row>
@@ -25,35 +27,37 @@
 
 </template>
 
-<script>
-  export default {
-    data () {
-      return {
-        page: {
-          currentPage: 1,
-          pageSize: 10
-        },
-        posts: {}
-      }
-    },
-    created () {
-      this.getPosts()
-    },
-    methods: {
-      getPosts () {
-        this.$http.get('/api/post/all', this.page)
-          .then(res => {
-            let body = res.body
-            if (body.errorCode === 0) {
-              this.posts = body.posts
-            } else {
-              this.$message.error(body.errorMessage)
-            }
-          })
-          .catch(e => this.$message.error(e.message))
-      }
+<script lang="ts">
+import { Vue, Component } from '../../ext-nb'
+import { IResultPage } from '../../typings/page'
+
+interface Article {
+  id: string
+}
+
+@Component
+export default class ArticleComponent extends Vue {
+
+  page = {
+    pageNum: 1,
+    pageSize: 100000
+  }
+  posts: Article[] = Object.create(null)
+
+  created () {
+    this.getPosts()
+  }
+
+  async getPosts () {
+    try {
+      const res = await this.$http.get<IResultPage<Article[]>>('/post', this.page)
+      this.posts = res.data.rows
+    } catch (e) {
+      console.error(e)
     }
   }
+
+}
 </script>
 
 <style lang="scss" rel="stylesheet/scss" scoped>

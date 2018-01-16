@@ -31,10 +31,10 @@ export default new VueRouter({
           path: 'article', name: '文章', component: r => require(['../view/nav/Article.vue'], r)
         },
         {
-          path: 'post', name: '新增文章', component: r => require(['../view/admin/Post.vue'], r)
+          path: 'article/add', name: '新增文章', component: r => require(['../view/admin/Post.vue'], r)
         },
         {
-          path: 'post-detail', name: '文章详情', component: r => require(['../view/admin/PostDetail.vue'], r)
+          path: 'article/:postId', name: '文章详情', component: r => require(['../view/admin/PostDetail.vue'], r)
         }
       ]
     },
