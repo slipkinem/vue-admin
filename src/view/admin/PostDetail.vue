@@ -5,7 +5,7 @@
 <template>
   <div class="post">
     <h2>{{post.postTitle}}</h2>
-    <p>{{post.postContent}}</p>
+    <div v-html="post.postContent"></div>
     <div class="send-message">
       <el-form label-width="0" ref="postDetail" :model="postDetail">
         <el-form-item>

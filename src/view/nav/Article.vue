@@ -17,8 +17,7 @@
 
       <el-row>
         <el-col :span="22">
-          <div class="post-content">
-            {{post.postContent}}
+          <div class="post-content" v-html="post.postContent">
           </div>
         </el-col>
       </el-row>

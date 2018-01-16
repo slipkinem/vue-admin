@@ -11,7 +11,7 @@
     </el-form-item>
     <el-form-item label="内容" prop="content">
       <el-col :span="22">
-        <el-input type="textarea" placeholder="文章内容" v-model="postForm.postContent" :rows="10"/>
+        <div ref="editor"></div>
       </el-col>
     </el-form-item>
     <el-form-item>
@@ -24,10 +24,10 @@
 <script lang="ts">
 import { Vue, Component } from '../../ext-nb'
 import { IPage } from '../../typings/page'
+import E from 'wangeditor'
 
 @Component
 export default class PostComponent extends Vue {
-
   postForm = {
     postContent: '',
     postTitle: ''
@@ -39,6 +39,14 @@ export default class PostComponent extends Vue {
   rules = {
     postTitle: [{ required: true, min: 3, max: 30, message: '长度在3-30之间', trigger: 'blur' }],
     postContent: [{ required: true, message: '必须填写', trigger: 'blur' }]
+  }
+
+  mounted () {
+    let editor = new E(this.$refs.editor)
+    editor.customConfig.onchange = (html: string) => {
+      this.postForm.postContent = html
+    }
+    editor.create()
   }
 
   clear () {

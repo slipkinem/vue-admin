@@ -9,3 +9,8 @@ declare module '*.json' {
 }
 
 declare var require: (files: Array<string> | string, resolve?: any) => any
+
+declare module 'wangeditor' {
+  const value: any
+  export default value
+}
