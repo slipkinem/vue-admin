@@ -5,13 +5,16 @@
 <template>
   <div class="post">
     <h2>{{post.postTitle}}</h2>
-    <div v-html="post.postContent"></div>
+    <div v-html="xss(post.postContent)"></div>
     <div class="send-message">
       <el-form label-width="0" ref="postDetail" :model="postDetail">
         <el-form-item>
           <el-col :span="16">
-            <el-input type="textarea" v-model="postDetail.commentContent" placeholder="觉得好的话，给留个言呗"
-                      :rows="5"/>
+            <el-input
+                type="textarea"
+                v-model="postDetail.commentContent"
+                placeholder="觉得好的话，给留个言呗"
+                :rows="5"/>
           </el-col>
           <el-col :span="4" :offset="1">
             <el-rate v-model="postDetail.commentRate" show-text/>
@@ -38,6 +41,7 @@
 
 <script lang="ts">
 import { Vue, Component } from '../../ext-nb'
+import xss from 'xss'
 
 interface IPostDetail {
   postTitle: string
@@ -63,6 +67,7 @@ export default class PostDetailComponent extends Vue {
   }
   postId = ''
   username = ''
+  xss = xss
 
   created () {
     this.postId = this.$route.params.postId

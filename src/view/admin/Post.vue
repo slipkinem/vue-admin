@@ -25,6 +25,7 @@
 import { Vue, Component } from '../../ext-nb'
 import { IPage } from '../../typings/page'
 import E from 'wangeditor'
+import xss from 'xss'
 
 @Component
 export default class PostComponent extends Vue {
@@ -47,6 +48,7 @@ export default class PostComponent extends Vue {
       this.postForm.postContent = html
     }
     editor.create()
+    console.dir(editor)
   }
 
   clear () {
@@ -57,6 +59,7 @@ export default class PostComponent extends Vue {
   }
 
   submit () {
+    this.postForm.postContent = xss(this.postForm.postContent)
     this.$http.post('/post', this.postForm)
         .then(res => {
           this.$message.success(res.errorMessage)

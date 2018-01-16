@@ -1849,6 +1849,10 @@ cssesc@^0.1.0:
   version "0.1.0"
   resolved "http://registry.npm.taobao.org/cssesc/download/cssesc-0.1.0.tgz#c814903e45623371a0477b40109aaafbeeaddbb4"
 
+cssfilter@0.0.10:
+  version "0.0.10"
+  resolved "http://registry.npm.taobao.org/cssfilter/download/cssfilter-0.0.10.tgz#c6d2672632a2e5c83e013e6864a42ce8defd20ae"
+
 cssnano@^3.10.0, cssnano@^3.4.0:
   version "3.10.0"
   resolved "http://registry.npm.taobao.org/cssnano/download/cssnano-3.10.0.tgz#4f38f6cea2b9b17fa01490f23f1dc68ea65c1c38"
@@ -8131,6 +8135,13 @@ xml-name-validator@^2.0.1:
 xregexp@2.0.0:
   version "2.0.0"
   resolved "http://registry.npm.taobao.org/xregexp/download/xregexp-2.0.0.tgz#52a63e56ca0b84a7f3a5f3d61872f126ad7a5943"
+
+xss@^0.3.7:
+  version "0.3.7"
+  resolved "http://registry.npm.taobao.org/xss/download/xss-0.3.7.tgz#1df6dc85c0240b455b5e5f0428bdeccd739ab4ee"
+  dependencies:
+    commander "^2.9.0"
+    cssfilter "0.0.10"
 
 xtend@^4.0.0, xtend@^4.0.1, xtend@~4.0.1:
   version "4.0.1"

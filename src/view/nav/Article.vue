@@ -17,8 +17,7 @@
 
       <el-row>
         <el-col :span="22">
-          <div class="post-content" v-html="post.postContent">
-          </div>
+          <div class="post-content" v-html="xss(post.postContent)"></div>
         </el-col>
       </el-row>
     </div>
@@ -29,6 +28,7 @@
 <script lang="ts">
 import { Vue, Component } from '../../ext-nb'
 import { IResultPage } from '../../typings/page'
+import xss from 'xss'
 
 interface Article {
   id: string
@@ -42,6 +42,8 @@ export default class ArticleComponent extends Vue {
     pageSize: 100000
   }
   posts: Article[] = Object.create(null)
+
+  xss = xss
 
   created () {
     this.getPosts()
