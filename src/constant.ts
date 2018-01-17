@@ -3,7 +3,7 @@
  * Copyright © 2016, PuKang Health Maintenance Co.
  */
 
-export const baseURL = '/api'
+export const baseURL = ''
 
 export enum MagicCode {
   successCode = 0,

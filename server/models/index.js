@@ -1,7 +1,7 @@
 /**
  * Created by slipkinem on 2016/12/9.
  */
-'use strict'
+
 const Monglass = require('mongolass')
 
 const monglass = new Monglass('mongodb://localhost:27017/table')
